@@ -11,7 +11,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(phoneNumber: string, password: string): Promise<User | null> {
+  async validateUser(
+    phoneNumber: string,
+    password: string,
+  ): Promise<User | null> {
     const user = await this.usersService.findByPhone(phoneNumber);
     if (user && user.password === password) {
       return user;
@@ -20,11 +23,18 @@ export class AuthService {
   }
 
   async login(loginDto: { phoneNumber: string; password: string }) {
-    const user = await this.validateUser(loginDto.phoneNumber, loginDto.password);
+    const user = await this.validateUser(
+      loginDto.phoneNumber,
+      loginDto.password,
+    );
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const payload = { phoneNumber: user.phoneNumber, sub: user.id };
+    const payload = {
+      phoneNumber: user.phoneNumber,
+      sub: user.id,
+      roles: user.roles, // Ajout des rôles dans le payload
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };
