@@ -7,12 +7,13 @@ import { Reservation } from '../common/interfaces/reservation.interface';
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
-  @Post()
-  create(
-    @Body() createReservationDto: CreateReservationDto,
-  ): Promise<Reservation> {
-    return this.reservationsService.create(createReservationDto);
-  }
+  // @Post()
+  // create(
+  //   @Body() createReservationDto: CreateReservationDto,
+  // ): Promise<Reservation> {
+  //   return this.reservationsService.create(createReservationDto);
+  // }
+  // Seulement admin peut créer une réservation
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Reservation | undefined> {

@@ -2,13 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../common/dto/create-user.dto';
 import { UpdateUserDto } from '../common/dto/update-user.dto';
 import { User } from '../common/interfaces/user.interface';
+import { Role } from '../auth/role.enum';
 
 @Injectable()
 export class UsersService {
   private users: User[] = [];
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user: User = { id: Date.now(), ...createUserDto };
+    // J'attribue le role user par défaut
+    const user: User = {
+      id: Date.now(),
+      ...createUserDto,
+      roles: [Role.USER],
+    };
+
+    // Mais si à la place d'un num c'est un string 'admin', je lui attribue le role admin, on s'en fout de la sécurité
+    if (createUserDto.phoneNumber === 'admin') {
+      user.roles = [Role.ADMIN];
+    }
+
     this.users.push(user);
     return user;
   }
