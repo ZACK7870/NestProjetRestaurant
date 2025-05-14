@@ -14,6 +14,7 @@ export class ReservationsController {
   //   return this.reservationsService.create(createReservationDto);
   // }
   // Seulement admin peut créer une réservation
+  // ou pas ? J'en sais rien
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Reservation | undefined> {
