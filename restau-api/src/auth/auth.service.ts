@@ -33,7 +33,7 @@ export class AuthService {
     const payload = {
       phoneNumber: user.phoneNumber,
       sub: user.id,
-      roles: user.roles, // Ajout des rôles dans le payload
+      roles: user.roles,
     };
     return {
       access_token: this.jwtService.sign(payload),
